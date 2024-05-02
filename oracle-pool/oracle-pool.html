@@ -13,10 +13,15 @@
         <label for="node-input-maxrows"><i class="fa fa-list-ol"></i> Max rows</label>
         <input type="number" id="node-input-maxrows" placeholder="Max rows">
     </div>
-<!--     <div class="form-row">
+     <div class="form-row">
         <label for="node-input-sendStats"><i class="fa fa-line-chart"></i> Statistics</label>
-        <input type="number" id="node-input-maxrows" placeholder="Max rows">
-    </div> -->
+        $("#node-input-sendStats").typedInput({
+            type:"bool",
+            types:["bool"],
+            typeField: "#node-input-sendStats-type"
+        })
+<!--         <input type="number" id="node-input-maxrows" placeholder="Max rows"> -->
+    </div>
 </script>
 
 <script type="text/html" data-help-name="oracle-pool">
