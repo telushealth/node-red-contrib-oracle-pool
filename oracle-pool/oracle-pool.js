@@ -65,7 +65,7 @@ module.exports = function(RED) {
                     }
                 }
             }
-            node.send([msg, null]);
+            node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
         });
 	node.on('close', function() {
     		// tidy up any state
