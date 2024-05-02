@@ -66,7 +66,7 @@ module.exports = function(RED) {
                     }
                 }
             }
-	    if (node.stats == true) {
+	    if (node.stats == "true") {
             	node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
 	    } else {
 		node.send([msg, null]);
