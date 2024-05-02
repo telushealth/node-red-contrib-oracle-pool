@@ -12,7 +12,7 @@ module.exports = function(RED) {
         let node = this;
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows;
-	node.stats = config.sendStats;
+	node.stats = parseInt(config.sendStats) || 0;
 	    
         node.on('input', async function(msg, send, done) {
 
@@ -66,7 +66,7 @@ module.exports = function(RED) {
                     }
                 }
             }
-	    if (node.stats == "true") {
+	    if (node.stats == 1) {
             	node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
 	    } else {
 		node.send([msg, null]);
