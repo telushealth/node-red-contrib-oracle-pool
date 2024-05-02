@@ -1,15 +1,17 @@
 <!-- #region Execution Node-->
 
-<script type="text/html" data-template-name="easy-oracle">
+<script type="text/html" data-template-name="oracle-poolconnect">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
         <label for="node-input-server"><i class="fa fa-tag"></i> Server</label>
         <input type="text" id="node-input-server" placeholder="Server">
+        <label for="node-input-maxrows"><i class="fa fa-tag"></i> Server</label>
+        <input type="text" id="node-input-maxrows" placeholder="Max rows">
     </div>
 </script>
 
-<script type="text/html" data-help-name="easy-oracle">
+<script type="text/html" data-help-name="oracle-poolconnect">
     <p>Allows basic access to Oracle databases.</p>
 
         <p>This node uses the query operation against the configured database. Currently supports SELECT operations.</p> 
@@ -27,7 +29,7 @@
 
 <!-- #region Config Node-->
 
-<script type="text/html" data-template-name="easy-oracle-config">
+<script type="text/html" data-template-name="oracle-poolconnect-config">
     <div class="form-row">
         <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-config-input-name">
@@ -52,11 +54,23 @@
         <label for="node-config-input-password"><i class="fa fa-key"></i> Password</label>
         <input type="password" id="node-config-input-password">
     </div>
+    <div class="form-row">
+        <label for="node-config-input-poolMin"><i class="fa fa-user"></i> User</label>
+        <input type="number" id="node-config-input-poolMin">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-poolMax"><i class="fa fa-user"></i> User</label>
+        <input type="number" id="node-config-input-poolMax">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-poolIncrement"><i class="fa fa-user"></i> User</label>
+        <input type="number" id="node-config-input-poolIncrement">
+    </div>
 </script>
 <!-- #endregion -->
 
 <script type="text/javascript">
-    RED.nodes.registerType('easy-oracle-config',{
+    RED.nodes.registerType('oracle-poolconnect-config',{
         category: 'config',
         defaults: {
             name: {value:"my-connection"},
@@ -65,24 +79,27 @@
             database: {value:"orcl",required:true},
             user: {value:"oracle",required:true},
             password: {value:"oracle",required:true},
+            poolMin: {value:1, required:true},
+            poolMax: {value:1, required:true},
+            poolIncrement: {value:1, required:true}
         },
         label: function() {
-            return this.name||"easy-oracle-config";
+            return this.name||"oracle-poolconnect-config";
         }
     });
     
-    RED.nodes.registerType('easy-oracle',{
+    RED.nodes.registerType('oracle-poolconnect',{
         category: 'storage',
         color: '#fc2c03',
         defaults: {
             name: {value:""},
-            server: {value:"", type:"easy-oracle-config"}
+            server: {value:"", type:"oracle-poolconnect-config"}
         },
         inputs:1,
         outputs:1,
         icon: "db.png",
         label: function() {
-            return this.name||"easy-oracle";
+            return this.name||"oracle-poolconnect";
         }
     });
 </script>
