@@ -28,7 +28,7 @@ module.exports = function(RED) {
                 //     externalAuth  : false
                 //   };
                 // connection = await oracledb.getConnection(dbConfig);
-                connection = await oracledb.getConnection();
+                connection = await oracledb.getConnection(node.server.name);
 
                 binds = {};
 
@@ -95,7 +95,8 @@ module.exports = function(RED) {
 		poolIncrement : this.poolIncrement,
             	poolMax       : this.poolMin,
             	poolMin       : this.poolMax,
-		enableStatistics : true
+		enableStatistics : true,
+		poolAlias : this.name
 	});
 	this.on('close', async function() {
     		await oracledb.getPool().close(5);
