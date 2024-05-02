@@ -103,7 +103,7 @@ module.exports = function(RED) {
 			node.error(err);
 		} else {
 			node.pool = pool;
-			node.info("Pool created");
+			node.warn("Pool created");
 		}
 	});
 	    
