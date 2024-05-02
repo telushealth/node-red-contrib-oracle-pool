@@ -12,17 +12,15 @@ module.exports = function(RED) {
         let node = this;
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows || 100;
-	node.stats = config.sendStats || true;
+	node.stats = config.sendStats || "true";
+	node.outputConn = config.outputConn || "close";
 	    
         node.on('input', async function(msg, send, done) {
-
             let connection;
-
             try {
                 let sql = msg.sql;
                 let binds, options, result;
 
-		// node.warn(JSON.stringify(node.server));
                 // dbConfig =  {
                 //     user: node.server.user,
                 //     password: node.server.password,
@@ -39,12 +37,12 @@ module.exports = function(RED) {
                 binds = {};
 
                 options = {
-                outFormat: oracledb.OUT_FORMAT_OBJECT,   // query result format
-		maxRows: node.maxrows,
-		autoCommit: true,
-                // extendedMetaData: true,               // get extra metadata
-                // prefetchRows:     100,                // internal buffer allocation size for tuning
-                // fetchArraySize:   100                 // internal buffer allocation size for tuning
+                	outFormat: oracledb.OUT_FORMAT_OBJECT,   // query result format
+			maxRows: node.maxrows,
+			autoCommit: true,
+	                // extendedMetaData: true,               // get extra metadata
+	                // prefetchRows:     100,                // internal buffer allocation size for tuning
+	                // fetchArraySize:   100                 // internal buffer allocation size for tuning
                 };
                 result = await connection.execute(sql, binds, options);
                 msg.payload = result;
@@ -75,7 +73,6 @@ module.exports = function(RED) {
                     }
                 }
             }
-		node.warn(node.stats);
 	    if (node.stats == "true") {
             	node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
 	    } else {
