@@ -21,6 +21,7 @@ module.exports = function(RED) {
                 let sql = msg.sql;
                 let binds, options, result;
 
+		node.warn(node.server);
                 // dbConfig =  {
                 //     user: node.server.user,
                 //     password: node.server.password,
@@ -40,7 +41,6 @@ module.exports = function(RED) {
                 // prefetchRows:     100,                // internal buffer allocation size for tuning
                 // fetchArraySize:   100                 // internal buffer allocation size for tuning
                 };
-		node.warn(node.server);
                 result = await connection.execute(sql, binds, options);
                 msg.payload = result;
             } catch (err) {
@@ -101,6 +101,7 @@ module.exports = function(RED) {
 		// poolAlias : this.name
 	}, function (err, pool){
 		if (err) {
+			node.warn(err);
 			node.error(err);
 		} else {
 			node.pool = pool;
