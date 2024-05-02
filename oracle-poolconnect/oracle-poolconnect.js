@@ -96,7 +96,7 @@ module.exports = function(RED) {
             	poolMin       : this.poolMax,
 		enableStatistics : true
 	});
-	this.on('close', function() {
+	this.on('close', async function() {
     		await oracledb.getPool().close(5);
 	});
     }
