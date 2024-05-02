@@ -78,6 +78,7 @@ module.exports = function(RED) {
     
     function OraclePoolConfigNode(n) {
         RED.nodes.createNode(this,n);
+	var node = this;
         this.host = n.host;
         this.port = n.port;
         this.database = n.database;
@@ -86,8 +87,9 @@ module.exports = function(RED) {
 	this.poolMin = n.poolMin;
 	this.poolMax = n.poolMax;
 	this.poolIncrement = n.poolIncrement;
+	this.pool = null;
 
-	this.pool = await oracledb.createPool({
+	oracledb.createPool({
 		user: this.user,
 	    	password: this.password,
 	    	connectString : `${this.host}:${this.port}/${this.database}`,
@@ -97,6 +99,12 @@ module.exports = function(RED) {
             	poolMin       : this.poolMax,
 		enableStatistics : true,
 		// poolAlias : this.name
+	}, function (err, pool){
+		if (err) {
+			node.error(err);
+		} else {
+			node.pool = pool;
+		}
 	});
 	    
 	this.on('close', async function() {
