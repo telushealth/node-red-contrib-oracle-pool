@@ -28,9 +28,11 @@ module.exports = function(RED) {
                 //     externalAuth  : false
                 //   };
                 // connection = await oracledb.getConnection(dbConfig);
-		if (msg.connection) {
+		if (msg.connection && msg.connection.isHealthy()) {
+			node.warn("Use connection");
 			connection = msg.connection;
 		} else {
+			node.warn("New connection");
 			connection = await node.server.pool.getConnection();
 		}
                 
