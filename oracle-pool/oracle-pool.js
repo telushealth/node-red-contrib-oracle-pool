@@ -95,8 +95,8 @@ module.exports = function(RED) {
 	    	connectString : `${this.host}:${this.port}/${this.database}`,
 	    	externalAuth  : false,
 		poolIncrement : this.poolIncrement,
-            	poolMax       : this.poolMin,
-            	poolMin       : this.poolMax,
+            	poolMin       : this.poolMin,
+            	poolMax       : this.poolMax,
 		enableStatistics : true,
 		// poolAlias : this.name
 	}, function (err, pool){
