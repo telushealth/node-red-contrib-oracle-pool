@@ -65,7 +65,7 @@ module.exports = function(RED) {
                     }
                 }
             }
-            node.send([msg, JSON.stringify(node.server.pool.getStatistics())]);
+            node.send([msg, null]);
         });
 	node.on('close', function() {
     		// tidy up any state
@@ -103,6 +103,7 @@ module.exports = function(RED) {
 			node.error(err);
 		} else {
 			node.pool = pool;
+			node.info("Pool created");
 		}
 	});
 	    
