@@ -122,7 +122,7 @@
             server: {value: "", type: "oracle-pool-config", required: true},
             maxrows: {value: 100},
             sendStats: {value: "true"},
-            ouputConn: {value: "close"}
+            outputConn: {value: "close"}
         },
         inputs: 1,
         inputLabels: "msg.sql",
@@ -139,7 +139,7 @@
             $("#node-input-outputConn").typedInput({
                 types: [
                     {
-                        value: "close",
+                        value: "outputType",
                          options: [
                             { value: "close", label: "Close"},
                             { value: "send", label: "Send to next"}
