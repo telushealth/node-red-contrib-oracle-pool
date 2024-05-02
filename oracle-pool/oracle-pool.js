@@ -12,7 +12,7 @@ module.exports = function(RED) {
         let node = this;
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows || 100;
-	node.stats = parseInt(config.sendStats) || 1;
+	node.stats = config.sendStats || true;
 	    
         node.on('input', async function(msg, send, done) {
 
