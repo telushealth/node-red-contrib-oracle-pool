@@ -103,8 +103,8 @@ module.exports = function(RED) {
 
     //#endregion
     
-    RED.nodes.registerType("oracle-poolconnect", OraclePoolExecutionNode);
-    RED.nodes.registerType("oracle-poolconnect-config", OraclePoolConfigNode);
+    RED.nodes.registerType("oracle-pool", OraclePoolExecutionNode);
+    RED.nodes.registerType("oracle-pool-config", OraclePoolConfigNode);
 
 }
 
