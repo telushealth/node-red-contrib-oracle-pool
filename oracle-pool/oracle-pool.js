@@ -97,9 +97,16 @@ module.exports = function(RED) {
             	poolMin       : this.poolMax,
 		enableStatistics : true,
 		poolAlias : this.name
+	}, function(err, pool) {
+		if (err) {
+			node.error(err);
+		} else {
+			this.pool = pool;
+		}
 	});
+	    
 	this.on('close', async function() {
-    		await oracledb.getPool().close(5);
+    		await this.pool.close(5);
 	});
     }
 
