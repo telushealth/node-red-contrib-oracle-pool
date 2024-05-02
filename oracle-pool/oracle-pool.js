@@ -66,6 +66,7 @@ module.exports = function(RED) {
                     }
                 }
             }
+		node.warn(node.stats);
 	    if (node.stats == 1) {
             	node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
 	    } else {
@@ -108,7 +109,7 @@ module.exports = function(RED) {
 			node.error(err);
 		} else {
 			node.pool = pool;
-			node.warn("Pool created");
+			// node.warn("Pool created");
 		}
 	});
 	    
