@@ -29,7 +29,7 @@ module.exports = function(RED) {
                 //   };
                 // connection = await oracledb.getConnection(dbConfig);
 		if (msg.connection) {
-			connection = msg.connexion;
+			connection = msg.connection;
 		} else {
 			connection = await node.server.pool.getConnection();
 		}
@@ -61,7 +61,7 @@ module.exports = function(RED) {
 				msg.connection = connection;
 			} else {
 				await connection.close();
-				delete msg.connection;
+				delete msg.connection; //à valider
 			}
                     } catch (err) {
 			if(done){
