@@ -63,6 +63,7 @@ module.exports = function(RED) {
 				msg.connection = connection;
 			} else {
 				await connection.close();
+				delete msg.connection;
 			}
                     } catch (err) {
 			if(done){
