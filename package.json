@@ -1,5 +1,5 @@
 {
-  "name": "node-red-oracle-poolconnect",
+  "name": "node-red-contrib-oracle-pool",
   "version": "0.9.0",
   "description": "Node-RED oracle database nodes with pool connection",
   "main": "index.js",
@@ -10,14 +10,14 @@
     "node-red",
     "oracle",
     "node-red oracle",
-    "oracle-poolconnect",
+    "oracle-pool",
     "oracledb"
   ],
   "author": "telushealth",
   "license": "",
   "node-red": {
     "nodes": {
-      "oracle-poolconnect": "oracle-poolconnect/oracle-poolconnect.js"
+      "oracle-poolconnect": "oracle-pool/oracle-pool.js"
     }
   },
   "dependencies": {
@@ -25,6 +25,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/telushealth/node-red-oracle-poolconnect.git"
+    "url": "https://github.com/telushealth/node-red-contrib-oracle-pool.git"
   }
 }
