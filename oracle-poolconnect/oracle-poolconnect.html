@@ -1,6 +1,6 @@
 <!-- #region Execution Node-->
 
-<script type="text/html" data-template-name="oracle-poolconnect">
+<script type="text/html" data-template-name="oracle-pool">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -11,7 +11,7 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="oracle-poolconnect">
+<script type="text/html" data-help-name="oracle-pool">
     <p>Allows basic access to Oracle databases.</p>
 
         <p>This node uses the query operation against the configured database. Currently supports SELECT, UPDATE, INSERT operations.</p> 
@@ -29,7 +29,7 @@
 
 <!-- #region Config Node-->
 
-<script type="text/html" data-template-name="oracle-poolconnect-config">
+<script type="text/html" data-template-name="oracle-pool-config">
     <div class="form-row">
         <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-config-input-name">
@@ -70,7 +70,7 @@
 <!-- #endregion -->
 
 <script type="text/javascript">
-    RED.nodes.registerType('oracle-poolconnect-config',{
+    RED.nodes.registerType('oracle-pool-config',{
         category: 'config',
         defaults: {
             name: {value:"my-connection"},
@@ -88,19 +88,19 @@
         }
     });
     
-    RED.nodes.registerType('oracle-poolconnect',{
+    RED.nodes.registerType('oracle-pool',{
         category: 'storage',
         color: '#66cc00',
         defaults: {
             name: {value:""},
-            server: {value:"", type:"oracle-poolconnect-config"},
+            server: {value:"", type:"oracle-pool-config"},
             maxrows: {value:100}
         },
         inputs:1,
         outputs:2,
         icon: "db.png",
         label: function() {
-            return this.name||"oracle-poolconnect";
+            return this.name||"oracle-pool";
         }
     });
 </script>
