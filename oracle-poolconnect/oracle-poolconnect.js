@@ -70,7 +70,7 @@ module.exports = function(RED) {
     		// tidy up any state
 	});
     }
-    }
+	
     //#endregion
     
     //#region Config Node
