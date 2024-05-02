@@ -65,7 +65,7 @@ module.exports = function(RED) {
                     }
                 }
             }
-            node.send([msg, node.server.pool.getStatistics()]);
+            node.send([msg, JSON.stringify(node.server.pool.getStatistics())]);
         });
 	node.on('close', function() {
     		// tidy up any state
