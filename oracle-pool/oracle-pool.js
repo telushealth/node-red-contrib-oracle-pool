@@ -18,16 +18,17 @@ module.exports = function(RED) {
             let connection;
 
             try {
-                let sql = msg.topic;
+                let sql = msg.sql;
                 let binds, options, result;
 
-                dbConfig =  {
-                    user: node.server.user,
-                    password: node.server.password,
-                    connectString : `${node.server.host}:${node.server.port}/${node.server.database}`,
-                    externalAuth  : false
-                  };
-                connection = await oracledb.getConnection(dbConfig);
+                // dbConfig =  {
+                //     user: node.server.user,
+                //     password: node.server.password,
+                //     connectString : `${node.server.host}:${node.server.port}/${node.server.database}`,
+                //     externalAuth  : false
+                //   };
+                // connection = await oracledb.getConnection(dbConfig);
+                connection = await oracledb.getConnection();
 
                 binds = {};
 
@@ -55,16 +56,16 @@ module.exports = function(RED) {
                     try {
                         await connection.close();
                     } catch (err) {
-						if(done){
-							done(err);
-						}
-						else {
-							node.error(err)
-						}
+			if(done){
+				done(err);
+			}
+			else {
+				node.error(err)
+			}
                     }
                 }
             }
-            node.send(msg);
+            node.send([msg, null]);
         });
 	node.on('close', function() {
     		// tidy up any state
