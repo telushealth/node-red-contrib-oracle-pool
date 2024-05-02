@@ -17,12 +17,6 @@
         <label for="node-input-sendStats"><i class="fa fa-line-chart"></i> Statistics</label>
         <input type="text" id="node-input-sendStats">
     </div>
-    $("#node-input-sendStats").typedInput({
-        type:"bool",
-        types:["bool"],
-        typeField: "#node-input-sendStats-type"
-    })
-
 </script>
 
 <script type="text/html" data-help-name="oracle-pool">
@@ -122,6 +116,12 @@
         icon: "db.png",
         label: function() {
             return this.name||"oracle-pool";
+        },
+        oneditprepare: function() {
+            $("#node-input-sendStats").typedInput({
+                type:"bool",
+                types:["bool"],
+             });
         }
     });
 </script>
