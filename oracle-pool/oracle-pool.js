@@ -88,7 +88,7 @@ module.exports = function(RED) {
 	this.poolMax = n.poolMax;
 	this.poolIncrement = n.poolIncrement;
 	this.pool = null;
-	node.warn(JSON.stringify(node);
+	node.warn(JSON.stringify(node));
 	oracledb.createPool({
 		user: this.user,
 	    	password: this.password,
