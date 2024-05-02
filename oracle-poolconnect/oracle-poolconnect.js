@@ -11,7 +11,8 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
         var node = this;
         node.server = RED.nodes.getNode(config.server);
-
+	node.maxRows = config.maxRows;
+	    
         node.on('input', async function(msg, send, done) {
 
             let connection;
@@ -75,15 +76,15 @@ module.exports = function(RED) {
         this.database = n.database;
         this.user = n.user;
         this.password = n.password;
-	this.poolmin = n.poolmin;
-	this.poolmax = n.poolmax;
-	this.poolincrement = n.poolincrement
+	this.poolMin = n.poolMin;
+	this.poolMax = n.poolMax;
+	this.poolIncrement = n.poolIncrement;
     }
 
     //#endregion
     
-    RED.nodes.registerType("easy-oracle",OraclePoolConnectExecutionNode);
-    RED.nodes.registerType("easy-oracle-config",OraclePoolConnectConfigNode);
+    RED.nodes.registerType("oracle-poolconnect",OraclePoolConnectExecutionNode);
+    RED.nodes.registerType("oracle-poolconnect-config",OraclePoolConnectConfigNode);
 
 }
 
