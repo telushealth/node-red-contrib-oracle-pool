@@ -12,6 +12,7 @@ module.exports = function(RED) {
         let node = this;
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows;
+	node.stats = config.sendStats;
 	    
         node.on('input', async function(msg, send, done) {
 
@@ -65,7 +66,11 @@ module.exports = function(RED) {
                     }
                 }
             }
-            node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
+	    if (node.stats == true) {
+            	node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
+	    } else {
+		node.send([msg, null]);
+	    }
         });
 	node.on('close', function() {
     		// tidy up any state
@@ -96,7 +101,7 @@ module.exports = function(RED) {
 		poolIncrement : parseInt(this.poolIncrement),
             	poolMin       : parseInt(this.poolMin),
             	poolMax       : parseInt(this.poolMax),
-		enableStatistics : true,
+		// enableStatistics : true,
 		// poolAlias : this.name
 	}, function (err, pool){
 		if (err) {
