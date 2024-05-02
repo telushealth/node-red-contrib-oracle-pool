@@ -11,8 +11,8 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
         let node = this;
         node.server = RED.nodes.getNode(config.server);
-	node.maxrows = config.maxrows;
-	node.stats = parseInt(config.sendStats) || 0;
+	node.maxrows = config.maxrows || 100;
+	node.stats = parseInt(config.sendStats) || 1;
 	    
         node.on('input', async function(msg, send, done) {
 
