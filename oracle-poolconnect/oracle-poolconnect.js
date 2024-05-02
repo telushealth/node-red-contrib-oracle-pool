@@ -7,7 +7,7 @@ module.exports = function(RED) {
     
     //#region Execution Node
     
-    function OraclePoolConnectExecutionNode(config) {
+    function OraclePoolExecutionNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
         node.server = RED.nodes.getNode(config.server);
@@ -75,7 +75,7 @@ module.exports = function(RED) {
     
     //#region Config Node
     
-    function OraclePoolConnectConfigNode(n) {
+    function OraclePoolConfigNode(n) {
         RED.nodes.createNode(this,n);
         this.host = n.host;
         this.port = n.port;
@@ -103,8 +103,8 @@ module.exports = function(RED) {
 
     //#endregion
     
-    RED.nodes.registerType("oracle-poolconnect", OraclePoolConnectExecutionNode);
-    RED.nodes.registerType("oracle-poolconnect-config", OraclePoolConnectConfigNode);
+    RED.nodes.registerType("oracle-poolconnect", OraclePoolExecutionNode);
+    RED.nodes.registerType("oracle-poolconnect-config", OraclePoolConfigNode);
 
 }
 
