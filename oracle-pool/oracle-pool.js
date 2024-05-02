@@ -21,7 +21,7 @@ module.exports = function(RED) {
                 let sql = msg.sql;
                 let binds, options, result;
 
-		node.warn(JSON.stringify(node.server));
+		// node.warn(JSON.stringify(node.server));
                 // dbConfig =  {
                 //     user: node.server.user,
                 //     password: node.server.password,
@@ -65,7 +65,7 @@ module.exports = function(RED) {
                     }
                 }
             }
-            node.send([msg, null]);
+            node.send([msg, node.server.pool.getStatistics()]);
         });
 	node.on('close', function() {
     		// tidy up any state
@@ -88,7 +88,6 @@ module.exports = function(RED) {
 	this.poolMax = parseInt(n.poolMax);
 	this.poolIncrement = parseInt(n.poolIncrement);
 	this.pool = null;
-	node.warn(JSON.stringify(node));
 	oracledb.createPool({
 		user: this.user,
 	    	password: this.password,
@@ -101,7 +100,6 @@ module.exports = function(RED) {
 		// poolAlias : this.name
 	}, function (err, pool){
 		if (err) {
-			node.warn(err.message);
 			node.error(err);
 		} else {
 			node.pool = pool;
