@@ -101,7 +101,7 @@ module.exports = function(RED) {
 		// poolAlias : this.name
 	}, function (err, pool){
 		if (err) {
-			node.warn(err);
+			node.warn(JSON.stringify(err));
 			node.error(err);
 		} else {
 			node.pool = pool;
