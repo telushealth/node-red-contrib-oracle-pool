@@ -84,9 +84,9 @@ module.exports = function(RED) {
         this.database = n.database;
         this.user = n.user;
         this.password = n.password;
-	this.poolMin = n.poolMin;
-	this.poolMax = n.poolMax;
-	this.poolIncrement = n.poolIncrement;
+	this.poolMin = parseInt(n.poolMin);
+	this.poolMax = parseInt(n.poolMax);
+	this.poolIncrement = parseInt(n.poolIncrement);
 	this.pool = null;
 	node.warn(JSON.stringify(node));
 	oracledb.createPool({
@@ -94,9 +94,9 @@ module.exports = function(RED) {
 	    	password: this.password,
 	    	connectString : `${this.host}:${this.port}/${this.database}`,
 	    	externalAuth  : false,
-		poolIncrement : this.poolIncrement,
-            	poolMin       : this.poolMin,
-            	poolMax       : this.poolMax,
+		poolIncrement : parseInt(this.poolIncrement),
+            	poolMin       : parseInt(this.poolMin),
+            	poolMax       : parseInt(this.poolMax),
 		enableStatistics : true,
 		// poolAlias : this.name
 	}, function (err, pool){
