@@ -11,7 +11,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
         var node = this;
         node.server = RED.nodes.getNode(config.server);
-	node.maxRows = config.maxRows;
+	node.maxrows = config.maxrows;
 	    
         node.on('input', async function(msg, send, done) {
 
@@ -33,6 +33,8 @@ module.exports = function(RED) {
 
                 options = {
                 outFormat: oracledb.OUT_FORMAT_OBJECT,   // query result format
+		maxRows: node.maxrows,
+		autoCommit: true,
                 // extendedMetaData: true,               // get extra metadata
                 // prefetchRows:     100,                // internal buffer allocation size for tuning
                 // fetchArraySize:   100                 // internal buffer allocation size for tuning
@@ -64,6 +66,10 @@ module.exports = function(RED) {
             }
             node.send(msg);
         });
+	node.on('close', function() {
+    		// tidy up any state
+	});
+    }
     }
     //#endregion
     
@@ -79,12 +85,26 @@ module.exports = function(RED) {
 	this.poolMin = n.poolMin;
 	this.poolMax = n.poolMax;
 	this.poolIncrement = n.poolIncrement;
+
+	oracledb.createPool({
+		user: this.user,
+	    	password: this.password,
+	    	connectString : `${this.host}:${this.port}/${this.database}`,
+	    	externalAuth  : false,
+		poolIncrement : this.poolIncrement,
+            	poolMax       : this.poolMin,
+            	poolMin       : this.poolMax,
+		enableStatistics : true
+	});
+	this.on('close', function() {
+    		await oracledb.getPool().close(5);
+	});
     }
 
     //#endregion
     
-    RED.nodes.registerType("oracle-poolconnect",OraclePoolConnectExecutionNode);
-    RED.nodes.registerType("oracle-poolconnect-config",OraclePoolConnectConfigNode);
+    RED.nodes.registerType("oracle-poolconnect", OraclePoolConnectExecutionNode);
+    RED.nodes.registerType("oracle-poolconnect-config", OraclePoolConnectConfigNode);
 
 }
 
