@@ -40,17 +40,17 @@ module.exports = function(RED) {
                 // prefetchRows:     100,                // internal buffer allocation size for tuning
                 // fetchArraySize:   100                 // internal buffer allocation size for tuning
                 };
-
+		node.warn(node.server);
                 result = await connection.execute(sql, binds, options);
                 msg.payload = result;
             } catch (err) {
-				if(done){
-					done(err);
-				}
-				else {
-					node.error(err)
-				}
-					
+		if(done){
+			done(err);
+		}
+		else {
+			node.error(err)
+		}
+			
             } finally {
                 if (connection) {
                     try {
