@@ -9,7 +9,7 @@ module.exports = function(RED) {
     
     function OraclePoolExecutionNode(config) {
         RED.nodes.createNode(this,config);
-        var node = this;
+        let node = this;
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows;
 	    
@@ -78,7 +78,7 @@ module.exports = function(RED) {
     
     function OraclePoolConfigNode(n) {
         RED.nodes.createNode(this,n);
-	var node = this;
+	let node = this;
         this.host = n.host;
         this.port = n.port;
         this.database = n.database;
@@ -88,7 +88,7 @@ module.exports = function(RED) {
 	this.poolMax = n.poolMax;
 	this.poolIncrement = n.poolIncrement;
 	this.pool = null;
-
+	node.warn(JSON.stringify(node);
 	oracledb.createPool({
 		user: this.user,
 	    	password: this.password,
