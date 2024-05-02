@@ -87,7 +87,7 @@ module.exports = function(RED) {
 	this.poolMax = n.poolMax;
 	this.poolIncrement = n.poolIncrement;
 
-	oracledb.createPool({
+	this.pool = await oracledb.createPool({
 		user: this.user,
 	    	password: this.password,
 	    	connectString : `${this.host}:${this.port}/${this.database}`,
@@ -97,12 +97,6 @@ module.exports = function(RED) {
             	poolMin       : this.poolMax,
 		enableStatistics : true,
 		// poolAlias : this.name
-	}, function(err, pool) {
-		if (err) {
-			node.error(err);
-		} else {
-			this.pool = pool;
-		}
 	});
 	    
 	this.on('close', async function() {
