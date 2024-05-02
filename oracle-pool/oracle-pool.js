@@ -30,8 +30,12 @@ module.exports = function(RED) {
                 //     externalAuth  : false
                 //   };
                 // connection = await oracledb.getConnection(dbConfig);
-                connection = await node.server.pool.getConnection();
-
+		if (msg.connection) {
+			connection = msg.connexion;
+		} else {
+			connection = await node.server.pool.getConnection();
+		}
+                
                 binds = {};
 
                 options = {
@@ -55,7 +59,11 @@ module.exports = function(RED) {
             } finally {
                 if (connection) {
                     try {
-                        await connection.close();
+			if (node.outputConn != "close") {
+				msg.connection = connection;
+			} else {
+				await connection.close();
+			}
                     } catch (err) {
 			if(done){
 				done(err);
@@ -67,7 +75,7 @@ module.exports = function(RED) {
                 }
             }
 		node.warn(node.stats);
-	    if (node.stats == true) {
+	    if (node.stats == "true") {
             	node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
 	    } else {
 		node.send([msg, null]);
