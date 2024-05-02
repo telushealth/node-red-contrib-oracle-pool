@@ -21,7 +21,7 @@ module.exports = function(RED) {
                 let sql = msg.sql;
                 let binds, options, result;
 
-		node.warn(node.server);
+		node.warn(JSON.stringify(node.server));
                 // dbConfig =  {
                 //     user: node.server.user,
                 //     password: node.server.password,
