@@ -22,7 +22,7 @@ module.exports = function(RED) {
                 let sql = msg.sql;
                 let binds, options, result;
 
-		if (msg.racle.connection != undefined) {
+		if (node.typeConn.startsWith("receive") && msg.oracle.connection != undefined && this.context().global.get(msg.oracle.connection).isHealthy()) {
 			connection = this.context().global.get(msg.oracle.connection); //msg.connection;
 		} else {
 			connection = await node.server.pool.getConnection();
@@ -51,7 +51,7 @@ module.exports = function(RED) {
             } finally {
                 if (connection) {
                     try {
-			if (node.outputConn != "close") {
+			if (node.typeConn.endsWith("send")) {
 				this.context().global.set(msg._msgid, connection);
 				msg.oracle.connection = msg._msgid;
 			} else {
