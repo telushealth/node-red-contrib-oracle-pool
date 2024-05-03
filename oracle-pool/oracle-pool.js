@@ -110,10 +110,10 @@ module.exports = function(RED) {
 					node.context().global.set(msg.oracle["connection_" + node.nameConn], undefined);
 					delete msg.oracle["connection_" + node.nameConn];
 				} else if (node.allConn == true) {
-					Object.keys(msg.oracle).forEach(async function(item, index) {
+					Object.keys(msg.oracle).forEach(function(item, index) {
 						if (item.startsWith("connection_")) {
 							if (node.context().global.get(msg.oracle[item]).isHealthy()) {
-								await node.context().global.get(msg.oracle[item]).close();
+								node.context().global.get(msg.oracle[item]).close();
 							}
 							node.context().global.set(msg.oracle[item], undefined);
 							delete msg.oracle[item];
