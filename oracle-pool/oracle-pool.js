@@ -17,6 +17,7 @@ module.exports = function(RED) {
 	    
         node.on('input', async function(msg, send, done) {
             let connection;
+	    msg.payload = {};
             try {
                 let sql = msg.sql;
                 let binds, options, result;
@@ -28,7 +29,7 @@ module.exports = function(RED) {
                 //     externalAuth  : false
                 //   };
                 // connection = await oracledb.getConnection(dbConfig);
-		if (msg.connection && msg.connection.isHealthy()) {
+		if (msg.connection != undefined && msg.connection.isHealthy()) {
 			node.warn("Use connection");
 			connection = msg.connection;
 		} else {
