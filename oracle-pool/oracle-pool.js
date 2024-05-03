@@ -89,7 +89,36 @@ module.exports = function(RED) {
     }
 	
     //#endregion
-    
+    //#region Closing Node
+	
+	function OraclePoolClosingNode(config) {
+		RED.nodes.createNode(this,config);
+        	let node = this;
+        	node.server = RED.nodes.getNode(config.server);
+		node.allConn = parseBool(config.allConn) || false;
+		node.nameConn = config.nameConn || "";
+
+		node.on('input', async function(msg, send, done) {
+			let connection;
+			if (msg.oracle != undefined) {
+				if (node.allConn == false && this.context().global.get(msg.oracle["connection_" + node.nameConn]).isHealthy()) {
+					await this.context().global.get(msg.oracle["connection_" + node.nameConn]).close();
+					this.context().global.set(msg.oracle["connection_" + node.nameConn], undefined);
+					delete msg.oracle["connection_" + node.nameConn];
+				} else {
+					msg.oracle.keys.forEach(function(item, index) {
+						if (item.startsWith("connection_") {
+							await this.context().global.get(msg.oracle[item]).close();
+							this.context().global.set(msg.oracle[item], undefined);
+							delete msg.oracle[item];
+						}
+					});
+				}
+			}
+		});
+	}
+	
+    //#endregion    
     //#region Config Node
     
     function OraclePoolConfigNode(n) {
@@ -141,7 +170,7 @@ module.exports = function(RED) {
 	}
     RED.nodes.registerType("oracle-pool", OraclePoolExecutionNode);
     RED.nodes.registerType("oracle-pool-config", OraclePoolConfigNode);
-
+    RED.nodes.registerType("oracle-pool-closing", OraclePoolClosingNode);
 }
 
 
