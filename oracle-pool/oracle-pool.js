@@ -13,7 +13,7 @@ module.exports = function(RED) {
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows || 100;
 	node.typeConn = config.typeConn || "open_close";
-	    
+	node.prefixConn = config.prefixConn || "";    
         node.on('input', async function(msg, send, done) {
             let connection;
 	    msg.payload = {};
@@ -22,8 +22,8 @@ module.exports = function(RED) {
                 let sql = msg.sql;
                 let binds, options, result;
 
-		if (node.typeConn.startsWith("receive") && msg.oracle.connection != undefined && this.context().global.get(msg.oracle.connection).isHealthy()) {
-			connection = this.context().global.get(msg.oracle.connection); //msg.connection;
+		if (node.typeConn.startsWith("receive") && msg.oracle.connection != undefined && this.context().global.get(node.prefixConn + "_" + msg.oracle.connection).isHealthy()) {
+			connection = this.context().global.get(node.prefixConn + "_" + msg.oracle.connection); //msg.connection;
 		} else {
 			connection = await node.server.pool.getConnection();
 		}
@@ -51,15 +51,20 @@ module.exports = function(RED) {
             } finally {
                 if (connection) {
                     try {
-			if (node.typeConn.endsWith("send")) {
-				this.context().global.set(msg._msgid, connection);
-				msg.oracle.connection = msg._msgid;
+			if ( node.typeConn.startsWith("open") && node.typeConn.endsWith("send")) {
+				this.context().global.set(node.prefixConn + "_" + msg._msgid, connection);
+				msg.oracle.connection = msg._msgid;				
+			} else if (node.typeConn.startsWith("receive") && node.typeConn.endsWith("send")) {
+				// this.context().global.set(node.prefixConn + "_" + msg._msgid, connection);
+				// msg.oracle.connection = msg._msgid;
+			} else if (node.typeConn.startsWith("receive") && node.typeConn.endsWith("close")) {
+				if (msg.oracle.connection) {
+					await connection.close();
+					this.context().global.set(node.prefixConn + "_" + msg.oracle.connection, undefined);
+					delete msg.oracle.connection;
+				}				
 			} else {
 				await connection.close();
-				if (msg.connection) {
-					this.context().global.set(msg.oracle.connection, undefined);
-					delete msg.oracle.connection;
-				}
 			}
                     } catch (err) {
 			if(done){
@@ -74,7 +79,8 @@ module.exports = function(RED) {
 	    if (node.server.enableStatistics == true) {
 		msg.oracle.statistics = node.server.pool.getStatistics();
 	    }
-       	    node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
+	    node.status({text: node.server.pool.connectionsOpen + "/" + node.server.pool.connectionsInUse})
+       	    node.send([msg, null]);
 	    done();
         });
 	node.on('close', function() {
