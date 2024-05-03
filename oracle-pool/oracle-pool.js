@@ -98,6 +98,7 @@ module.exports = function(RED) {
 	this.poolMax = parseInt(n.poolMax);
 	this.poolIncrement = parseInt(n.poolIncrement);
 	this.pool = null;
+	oracledb.autoCommit = true;
 	oracledb.createPool({
 		user: this.user,
 	    	password: this.password,
