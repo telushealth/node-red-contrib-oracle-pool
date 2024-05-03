@@ -12,17 +12,18 @@ module.exports = function(RED) {
         let node = this;
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows || 100;
-	node.outputConn = config.outputConn || "close";
+	node.typeConn = config.typeConn || "open_close";
 	    
         node.on('input', async function(msg, send, done) {
             let connection;
 	    msg.payload = {};
+	    msg.oracle = msg.oracle || {};
             try {
                 let sql = msg.sql;
                 let binds, options, result;
 
-		if (msg.connection != undefined) {
-			connection = this.context().global.get(msg.connection); //msg.connection;
+		if (msg.racle.connection != undefined) {
+			connection = this.context().global.get(msg.oracle.connection); //msg.connection;
 		} else {
 			connection = await node.server.pool.getConnection();
 		}
@@ -52,12 +53,12 @@ module.exports = function(RED) {
                     try {
 			if (node.outputConn != "close") {
 				this.context().global.set(msg._msgid, connection);
-				msg.connection = msg._msgid;
+				msg.oracle.connection = msg._msgid;
 			} else {
 				await connection.close();
 				if (msg.connection) {
-					this.context().global.set(msg.connection, undefined);
-					delete msg.connection;
+					this.context().global.set(msg.oracle.connection, undefined);
+					delete msg.oracle.connection;
 				}
 			}
                     } catch (err) {
@@ -71,7 +72,7 @@ module.exports = function(RED) {
                 }
             }
 	    if (node.server.enableStatistics == true) {
-		msg.payload.statistics = node.server.pool.getStatistics();
+		msg.oracle.statistics = node.server.pool.getStatistics();
 	    }
        	    node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
 	    done();
