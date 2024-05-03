@@ -30,10 +30,8 @@ module.exports = function(RED) {
                 //   };
                 // connection = await oracledb.getConnection(dbConfig);
 		if (msg.connection != undefined) {
-			node.warn("Use connection");
 			connection = this.context().global.get(msg.connection); //msg.connection;
 		} else {
-			node.warn("New connection");
 			connection = await node.server.pool.getConnection();
 		}
                 
@@ -81,7 +79,9 @@ module.exports = function(RED) {
                 }
             }
 	    if (node.stats == "true") {
-            	node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
+            	// node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
+		msg.statistics = node.server.pool.getStatistics();
+            	node.send([msg, node.server.pool.getStatistics()]);
 	    } else {
 		node.send([msg, null]);
 	    }
@@ -116,7 +116,7 @@ module.exports = function(RED) {
 		poolIncrement : parseInt(this.poolIncrement),
             	poolMin       : parseInt(this.poolMin),
             	poolMax       : parseInt(this.poolMax),
-		// enableStatistics : true,
+		enableStatistics : true,
 		// poolAlias : this.name
 	}, function (err, pool){
 		if (err) {
