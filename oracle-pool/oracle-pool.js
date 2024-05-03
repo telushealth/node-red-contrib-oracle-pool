@@ -95,7 +95,7 @@ module.exports = function(RED) {
 		RED.nodes.createNode(this,config);
         	let node = this;
         	node.server = RED.nodes.getNode(config.server);
-		node.allConn = parseBool(config.allConn) || false;
+		node.allConn = config.allConn || false;
 		node.nameConn = config.nameConn || "";
 
 		node.on('input', async function(msg, send, done) {
