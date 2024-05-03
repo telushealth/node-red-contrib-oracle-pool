@@ -21,13 +21,6 @@ module.exports = function(RED) {
                 let sql = msg.sql;
                 let binds, options, result;
 
-                // dbConfig =  {
-                //     user: node.server.user,
-                //     password: node.server.password,
-                //     connectString : `${node.server.host}:${node.server.port}/${node.server.database}`,
-                //     externalAuth  : false
-                //   };
-                // connection = await oracledb.getConnection(dbConfig);
 		if (msg.connection != undefined) {
 			connection = this.context().global.get(msg.connection); //msg.connection;
 		} else {
