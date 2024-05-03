@@ -132,7 +132,7 @@ module.exports = function(RED) {
     //#endregion
 
 	function parseBool(value) {
-		if (value != undefined && (value.toLowerCase() == "true" || value == 1)) {
+		if (value != undefined && (value.toLowerCase() == "true" || value == true)) {
 			return true;
 		} else {
 			return false;
