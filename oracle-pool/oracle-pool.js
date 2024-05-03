@@ -31,7 +31,7 @@ module.exports = function(RED) {
                 // connection = await oracledb.getConnection(dbConfig);
 		if (msg.connection != undefined) {
 			node.warn("Use connection");
-			connection = this.context().global.get("msg.connection"); //msg.connection;
+			connection = this.context().global.get(msg.connection); //msg.connection;
 		} else {
 			node.warn("New connection");
 			connection = await node.server.pool.getConnection();
