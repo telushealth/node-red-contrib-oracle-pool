@@ -81,6 +81,7 @@ module.exports = function(RED) {
 	    } else {
 		node.send([msg, null]);
 	    }
+	    done();
         });
 	node.on('close', function() {
     		// tidy up any state
