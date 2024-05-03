@@ -101,17 +101,17 @@ module.exports = function(RED) {
 		node.on('input', async function(msg, send, done) {
 			let connection;
 			if (msg.oracle != undefined) {
-				if (node.allConn == false && this.context().global.get(msg.oracle["connection_" + node.nameConn]).isHealthy()) {
-					await this.context().global.get(msg.oracle["connection_" + node.nameConn]).close();
-					this.context().global.set(msg.oracle["connection_" + node.nameConn], undefined);
+				if (node.allConn == false && node.context().global.get(msg.oracle["connection_" + node.nameConn]).isHealthy()) {
+					await node.context().global.get(msg.oracle["connection_" + node.nameConn]).close();
+					node.context().global.set(msg.oracle["connection_" + node.nameConn], undefined);
 					delete msg.oracle["connection_" + node.nameConn];
 				} else {
 					Object.keys(msg.oracle).forEach(async function(item, index) {
 						if (item.startsWith("connection_")) {
-							if (this.context().global.get(msg.oracle[item]).isHealthy()) {
-								await this.context().global.get(msg.oracle[item]).close();
+							if (node.context().global.get(msg.oracle[item]).isHealthy()) {
+								await node.context().global.get(msg.oracle[item]).close();
 							}
-							this.context().global.set(msg.oracle[item], undefined);
+							node.context().global.set(msg.oracle[item], undefined);
 							delete msg.oracle[item];
 						}
 					});
