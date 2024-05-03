@@ -113,7 +113,7 @@ module.exports = function(RED) {
 		poolIncrement : parseInt(this.poolIncrement),
             	poolMin       : parseInt(this.poolMin),
             	poolMax       : parseInt(this.poolMax),
-		enableStatistics : true,
+		enableStatistics : this.enableStatistics,
 		// poolAlias : this.name
 	}, function (err, pool){
 		if (err) {
