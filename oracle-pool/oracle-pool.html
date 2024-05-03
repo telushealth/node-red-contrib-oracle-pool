@@ -108,7 +108,7 @@
             poolMin: {value:1, required:true, validate:RED.validators.number()},
             poolMax: {value:1, required:true, validate:RED.validators.number()},
             poolIncrement: {value:1, required:true, validate:RED.validators.number()},
-            enableStatistics: {value:false}
+            enableStatistics: {value:"false"}
         },
         label: function() {
             return this.name||"oracle-pool-config";
@@ -128,7 +128,7 @@
             name: {value: ""},
             server: {value: "", type: "oracle-pool-config", required: true},
             maxrows: {value: 100, validate:RED.validators.number()},
-            sendStats: {value: "true"},
+            // sendStats: {value: "true"},
             outputConn: {value: "close"}
         },
         inputs: 1,
