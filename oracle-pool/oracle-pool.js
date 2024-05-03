@@ -12,7 +12,6 @@ module.exports = function(RED) {
         let node = this;
         node.server = RED.nodes.getNode(config.server);
 	node.maxrows = config.maxrows || 100;
-	node.stats = config.sendStats || "true";
 	node.outputConn = config.outputConn || "close";
 	    
         node.on('input', async function(msg, send, done) {
@@ -78,13 +77,10 @@ module.exports = function(RED) {
                     }
                 }
             }
-	    if (node.stats == "true") {
-            	// node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
-		msg.statistics = node.server.pool.getStatistics();
-            	node.send([msg, node.server.pool.getStatistics()]);
-	    } else {
-		node.send([msg, null]);
+	    if (node.server.enableStatistics == true) {
+		msg.payload.statistics = node.server.pool.getStatistics();
 	    }
+       	    node.send([msg, {inUse: node.server.pool.connectionsInUse, open: node.server.pool.connectionsOpen}]);
 	    done();
         });
 	node.on('close', function() {
@@ -104,6 +100,7 @@ module.exports = function(RED) {
         this.database = n.database;
         this.user = n.user;
         this.password = n.password;
+	this.enableStatistics = parseBool(n.enableStatistics) || false;
 	this.poolMin = parseInt(n.poolMin);
 	this.poolMax = parseInt(n.poolMax);
 	this.poolIncrement = parseInt(n.poolIncrement);
@@ -133,7 +130,14 @@ module.exports = function(RED) {
     }
 
     //#endregion
-    
+
+	function parseBool(value) {
+		if (value.toLowerCase() == "true" || value == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
     RED.nodes.registerType("oracle-pool", OraclePoolExecutionNode);
     RED.nodes.registerType("oracle-pool-config", OraclePoolConfigNode);
 
