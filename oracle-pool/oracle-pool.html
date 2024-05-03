@@ -14,10 +14,6 @@
         <input type="number" id="node-input-maxrows" placeholder="Max rows">
     </div>
     <div class="form-row">
-        <label for="node-input-sendStats"><i class="fa fa-line-chart"></i> Statistics</label>
-        <input type="text" id="node-input-sendStats">
-    </div>
-    <div class="form-row">
         <h4>Paramètres de connexion</h4>
     </div>
 <!--     <div class="form-row">
@@ -92,6 +88,10 @@
         <label for="node-config-input-poolIncrement"><i class="fa fa-step-forward"></i> Increment</label>
         <input type="number" id="node-config-input-poolIncrement">
     </div>
+    <div class="form-row">
+        <label for="node-input-enableStatistics"><i class="fa fa-line-chart"></i> Statistics</label>
+        <input type="text" id="node-input-enableStatistics">
+    </div>
 </script>
 <!-- #endregion -->
 
@@ -107,11 +107,17 @@
             password: {value:"oracle",required:true},
             poolMin: {value:1, required:true, validate:RED.validators.number()},
             poolMax: {value:1, required:true, validate:RED.validators.number()},
-            poolIncrement: {value:1, required:true, validate:RED.validators.number()}
+            poolIncrement: {value:1, required:true, validate:RED.validators.number()},
+            enableStatistics: {value:false}
         },
         label: function() {
             return this.name||"oracle-pool-config";
-        }
+        },
+        oneditprepare: function() {
+            $("#node-input-enableStatistics").typedInput({
+                type:"bool",
+                types:["bool"],
+            });
     });
     
     RED.nodes.registerType('oracle-pool',{
@@ -132,10 +138,10 @@
             return this.name||"oracle-pool";
         },
         oneditprepare: function() {
-            $("#node-input-sendStats").typedInput({
-                type:"bool",
-                types:["bool"],
-            });
+            // $("#node-input-enableStatistics").typedInput({
+            //     type:"bool",
+            //     types:["bool"],
+            // });
             $("#node-input-outputConn").typedInput({
                 types: [
                     {
