@@ -57,8 +57,10 @@ module.exports = function(RED) {
 				this.context().global.set(node.nameConn + "_" + msg._msgid, connection);
 				msg.oracle["connection_" + node.nameConn] = node.nameConn + "_" + msg._msgid;				
 			} else if (node.typeConn.startsWith("receive") && node.typeConn.endsWith("send")) {
-				// this.context().global.set(node.nameConn + "_" + msg._msgid, connection);
-				// msg.oracle["connection_" + node.nameConn] = msg._msgid;
+				if (this.context().global.get(node.nameConn + "_" + msg._msgid) == undefined) {
+					this.context().global.set(node.nameConn + "_" + msg._msgid, connection);
+					msg.oracle["connection_" + node.nameConn] = node.nameConn + "_" + msg._msgid;									
+				}
 			} else if (node.typeConn.startsWith("receive") && node.typeConn.endsWith("close")) {
 				if (msg.oracle["connection_" + node.nameConn]) {
 					await connection.close();
@@ -114,7 +116,7 @@ module.exports = function(RED) {
 								await node.context().global.get(msg.oracle[item]).close();
 							}
 							node.context().global.set(msg.oracle[item], undefined);
-							msg.oracle[item] = undefined;
+							delete msg.oracle[item];
 						}
 					});
 				}
