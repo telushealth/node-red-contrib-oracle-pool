@@ -21,8 +21,8 @@
         <input type="text" id="node-input-inputConn">
     </div> -->
     <div class="form-row">
-        <label for="node-input-outputConn"><i class="fa fa-sign-out"></i> Output</label>
-        <input type="text" id="node-input-outputConn">
+        <label for="node-input-typeConn"><i class="fa fa-sign-out"></i> Type</label>
+        <input type="text" id="node-input-typeConn">
     </div>
 
 </script>
@@ -129,7 +129,7 @@
             server: {value: "", type: "oracle-pool-config", required: true},
             maxrows: {value: 100, validate:RED.validators.number()},
             // sendStats: {value: "true"},
-            outputConn: {value: "close"}
+            typeConn: {value: "open_close"}
         },
         inputs: 1,
         inputLabels: "msg.sql",
@@ -139,13 +139,15 @@
             return this.name||"oracle-pool";
         },
         oneditprepare: function() {
-            $("#node-input-outputConn").typedInput({
+            $("#node-input-typeConn").typedInput({
                 types: [
                     {
-                        value: "outputType",
+                        value: "connType",
                          options: [
-                            { value: "close", label: "Close"},
-                            { value: "send", label: "Send to next"}
+                            { value: "open_close", label: "Open -> Close"},
+                            { value: "open_send", label: "Open -> Send"},
+                            { value: "receive_send", label: "Receive -> Send"},
+                            { value: "receive_close", label: "Receive -> Close"}
                         ]
                     }
                 ]
