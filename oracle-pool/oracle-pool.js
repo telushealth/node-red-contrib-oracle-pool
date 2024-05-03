@@ -31,7 +31,7 @@ module.exports = function(RED) {
                 // connection = await oracledb.getConnection(dbConfig);
 		if (msg.connection != undefined) {
 			node.warn("Use connection");
-			connection = msg.connection;
+			connection = this.context().global.get("msg.connection"); //msg.connection;
 		} else {
 			node.warn("New connection");
 			connection = await node.server.pool.getConnection();
@@ -61,10 +61,12 @@ module.exports = function(RED) {
                 if (connection) {
                     try {
 			if (node.outputConn != "close") {
-				msg.connection = connection;
+				this.context().global.set(msg._msgid, connection);
+				msg.connection = msg._msgid;
 			} else {
 				await connection.close();
-				delete msg.connection; //à valider
+				this.context().global.set("msg.connection", undefined);
+				// delete msg.connection; //à valider
 			}
                     } catch (err) {
 			if(done){
