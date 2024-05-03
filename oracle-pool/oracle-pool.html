@@ -16,10 +16,10 @@
     <div class="form-row">
         <h4>Paramètres de connexion</h4>
     </div>
-<!--     <div class="form-row">
-        <label for="node-input-inputConn"><i class="fa fa-sign-in"></i> Input</label>
-        <input type="text" id="node-input-inputConn">
-    </div> -->
+    <div class="form-row">
+        <label for="node-input-prefixConn"><i class="fa fa-sign-in"></i> Prefix</label>
+        <input type="text" id="node-input-prefixConn">
+    </div>
     <div class="form-row">
         <label for="node-input-typeConn"><i class="fa fa-sign-out"></i> Type</label>
         <input type="text" id="node-input-typeConn">
@@ -129,11 +129,13 @@
             server: {value: "", type: "oracle-pool-config", required: true},
             maxrows: {value: 100, validate:RED.validators.number()},
             // sendStats: {value: "true"},
+            prefixConn: {value: ""},
             typeConn: {value: "open_close"}
         },
         inputs: 1,
         inputLabels: "msg.sql",
         outputs: 2,
+        outputLabels: ["await","async"],
         icon: "db.png",
         label: function() {
             return this.name||"oracle-pool";
