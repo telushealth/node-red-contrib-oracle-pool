@@ -105,9 +105,9 @@
             database: {value:"orcl",required:true},
             user: {value:"oracle",required:true},
             password: {value:"oracle",required:true},
-            poolMin: {value:1, required:true},
-            poolMax: {value:1, required:true},
-            poolIncrement: {value:1, required:true}
+            poolMin: {value:1, required:true, validate:RED.validators.number()},
+            poolMax: {value:1, required:true, validate:RED.validators.number()},
+            poolIncrement: {value:1, required:true, validate:RED.validators.number()}
         },
         label: function() {
             return this.name||"oracle-pool-config";
@@ -120,7 +120,7 @@
         defaults: {
             name: {value: ""},
             server: {value: "", type: "oracle-pool-config", required: true},
-            maxrows: {value: 100},
+            maxrows: {value: 100, validate:RED.validators.number()},
             sendStats: {value: "true"},
             outputConn: {value: "close"}
         },
