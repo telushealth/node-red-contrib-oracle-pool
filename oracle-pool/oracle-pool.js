@@ -22,8 +22,8 @@ module.exports = function(RED) {
                 let sql = msg.sql;
                 let binds, options, result;
 
-		if (node.typeConn.startsWith("receive") && msg.oracle.connection != undefined && this.context().global.get(node.prefixConn + "_" + msg.oracle.connection).isHealthy()) {
-			connection = this.context().global.get(node.prefixConn + "_" + msg.oracle.connection); //msg.connection;
+		if (node.typeConn.startsWith("receive") && msg.oracle["connection_" + node.nameConn]  != undefined && this.context().global.get(msg.oracle["connection_" + node.nameConn]).isHealthy()) {
+			connection = this.context().global.get(msg.oracle["connection_" + node.nameConn]); //msg.connection;
 		} else {
 			connection = await node.server.pool.getConnection();
 		}
@@ -52,16 +52,16 @@ module.exports = function(RED) {
                 if (connection) {
                     try {
 			if ( node.typeConn.startsWith("open") && node.typeConn.endsWith("send")) {
-				this.context().global.set(node.prefixConn + "_" + msg._msgid, connection);
-				msg.oracle.connection = msg._msgid;				
+				this.context().global.set(node.nameConn + "_" + msg._msgid, connection);
+				msg.oracle["connection_" + node.nameConn] = node.nameConn + "_" + msg._msgid;				
 			} else if (node.typeConn.startsWith("receive") && node.typeConn.endsWith("send")) {
-				// this.context().global.set(node.prefixConn + "_" + msg._msgid, connection);
-				// msg.oracle.connection = msg._msgid;
+				// this.context().global.set(node.nameConn + "_" + msg._msgid, connection);
+				// msg.oracle["connection_" + node.nameConn] = msg._msgid;
 			} else if (node.typeConn.startsWith("receive") && node.typeConn.endsWith("close")) {
-				if (msg.oracle.connection) {
+				if (msg.oracle["connection_" + node.nameConn]) {
 					await connection.close();
-					this.context().global.set(node.prefixConn + "_" + msg.oracle.connection, undefined);
-					delete msg.oracle.connection;
+					this.context().global.set(msg.oracle["connection_" + node.nameConn], undefined);
+					delete msg.oracle["connection_" + node.nameConn];
 				}				
 			} else {
 				await connection.close();
