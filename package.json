@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "oracledb": "^5.1.0"
+    "oracledb": ">=6.0.0"
   },
   "repository": {
     "type": "git",
