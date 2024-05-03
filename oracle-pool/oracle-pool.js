@@ -106,7 +106,7 @@ module.exports = function(RED) {
 					this.context().global.set(msg.oracle["connection_" + node.nameConn], undefined);
 					delete msg.oracle["connection_" + node.nameConn];
 				} else {
-					msg.oracle.keys.forEach(async function(item, index) {
+					Object.keys(msg.oracle).forEach(async function(item, index) {
 						if (item.startsWith("connection_")) {
 							if (this.context().global.get(msg.oracle[item]).isHealthy()) {
 								await this.context().global.get(msg.oracle[item]).close();
