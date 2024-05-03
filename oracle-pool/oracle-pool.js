@@ -114,7 +114,7 @@ module.exports = function(RED) {
 								await node.context().global.get(msg.oracle[item]).close();
 							}
 							node.context().global.set(msg.oracle[item], undefined);
-							delete msg.oracle[item];
+							msg.oracle[item] = undefined;
 						}
 					});
 				}
