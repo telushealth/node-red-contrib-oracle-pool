@@ -170,7 +170,7 @@ module.exports = function(RED) {
 	}
     RED.nodes.registerType("oracle-pool", OraclePoolExecutionNode);
     RED.nodes.registerType("oracle-pool-config", OraclePoolConfigNode);
-    RED.nodes.registerType("oracle-pool-closing", OraclePoolClosingNode);
+    RED.nodes.registerType("oracle-closing", OraclePoolClosingNode);
 }
 
 
