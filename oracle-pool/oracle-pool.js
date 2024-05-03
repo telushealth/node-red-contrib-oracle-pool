@@ -54,7 +54,7 @@ module.exports = function(RED) {
 			done(err);
 		}
 		else {
-			node.error(err)
+			node.error(err);
 		}
 			
             } finally {
@@ -71,7 +71,7 @@ module.exports = function(RED) {
 				done(err);
 			}
 			else {
-				node.error(err)
+				node.error(err);
 			}
                     }
                 }
