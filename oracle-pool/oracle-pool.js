@@ -65,7 +65,7 @@ module.exports = function(RED) {
 				msg.connection = msg._msgid;
 			} else {
 				await connection.close();
-				this.context().global.set("msg.connection", undefined);
+				this.context().global.set(msg.connection, undefined);
 				// delete msg.connection; //à valider
 			}
                     } catch (err) {
