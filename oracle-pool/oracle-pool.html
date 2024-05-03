@@ -42,7 +42,32 @@
 
 
 <!-- #endregion -->
+<!-- #region Closing Node-->
 
+<script type="text/html" data-template-name="oracle-closing">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-server"></i> Server</label>
+        <input type="text" id="node-input-server" placeholder="Server">
+    </div>
+    <div class="form-row">
+        <h4>Paramètres de connexion</h4>
+    </div>
+    <div class="form-row">
+        <label for="node-input-nameConn"><i class="fa fa-plus"></i> Name</label>
+        <input type="text" id="node-input-nameConn">
+    </div>
+    <div class="form-row">
+        <input type="checkbox" id="node-input-allConn">
+        <label for="node-input-allConn"> Close all connections</label>
+    </div>
+
+</script>
+
+<!-- #endregion -->
 <!-- #region Config Node-->
 
 <script type="text/html" data-template-name="oracle-pool-config">
@@ -120,7 +145,7 @@
             });
         }
     });
-    
+
     RED.nodes.registerType('oracle-pool',{
         category: 'storage',
         color: '#66cc00',
@@ -156,4 +181,25 @@
             });
         }
     });
+
+    RED.nodes.registerType('oracle-closing', {
+        category: 'storage',
+        color: '#66cc00',
+        defaults: {
+            name: {value: ""},
+            server: {value: "", type: "oracle-pool-config", required: true},
+            nameConn: {value: ""},
+            allConn: {value: false}
+        },
+        inputs: 1,
+        inputLabels: "msg.oracle",
+        outputs: 1,
+        icon: "font-awesome/fa-times",
+        label: function() {
+            return this.name||"oracle-closing";
+        },
+
+    });
+    
+
 </script>
