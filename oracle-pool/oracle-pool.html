@@ -108,7 +108,7 @@
             poolMin: {value:1, required:true, validate:RED.validators.number()},
             poolMax: {value:1, required:true, validate:RED.validators.number()},
             poolIncrement: {value:1, required:true, validate:RED.validators.number()},
-            enableStatistics: {value:"false"}
+            enableStatistics: {value:false}
         },
         label: function() {
             return this.name||"oracle-pool-config";
@@ -139,10 +139,6 @@
             return this.name||"oracle-pool";
         },
         oneditprepare: function() {
-            // $("#node-input-enableStatistics").typedInput({
-            //     type:"bool",
-            //     types:["bool"],
-            // });
             $("#node-input-outputConn").typedInput({
                 types: [
                     {
