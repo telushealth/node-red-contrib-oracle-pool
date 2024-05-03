@@ -57,8 +57,8 @@ module.exports = function(RED) {
 				await connection.close();
 				if (msg.connection) {
 					this.context().global.set(msg.connection, undefined);
+					delete msg.connection;
 				}
-				// delete msg.connection; //à valider
 			}
                     } catch (err) {
 			if(done){
