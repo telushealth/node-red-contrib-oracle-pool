@@ -1,5 +1,7 @@
 module.exports = function(RED) {
     //#region requires
+	
+    'use strict';
     const oracledb = require('oracledb')
     oracledb.fetchAsString = [ oracledb.CLOB ];
 
