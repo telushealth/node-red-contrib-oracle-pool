@@ -84,7 +84,7 @@ module.exports = function(RED) {
 		msg.oracle.statistics = node.server.pool.getStatistics();
 	    }
 	    node.status({text: node.server.pool.connectionsOpen + "/" + node.server.pool.connectionsInUse})
-       	    node.send([msg, null]);
+       	    node.send([msg, msg.oracle.statistics || null]);
 	    done();
         });
 	node.on('close', function() {
