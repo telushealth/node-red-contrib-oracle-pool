@@ -13,7 +13,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
         let node = this;
         node.server = RED.nodes.getNode(config.server);
-	node.maxrows = config.maxrows || 100;
+	node.maxrows = parseInt(config.maxrows) || 100;
 	node.typeConn = config.typeConn || "open_close";
 	node.nameConn = config.nameConn || "";    
         node.on('input', async function(msg, send, done) {
